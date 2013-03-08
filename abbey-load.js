@@ -22,12 +22,11 @@
         request.open('GET', file[fileKey], true);
         request.responseType = 'arraybuffer';
 
-        request.onload = function () {
+        request.onload = function () {        	
             filesLoaded++;
             context.decodeAudioData(request.response, function (decodedBuffer) {
                 returnObj[fileKey] = decodedBuffer;
-
-                if (filesLoaded === numberOfFiles) {
+                if (Object.size(returnObj) === numberOfFiles) {
                     callback(returnObj);
                 }
             });
@@ -40,9 +39,9 @@
         var returnObj = {};
 
         files.forEach(function (file, index) {
+		numberOfFiles = Object.size(file);
             for (var key in file) {
                 if (file.hasOwnProperty(key)) {
-                    numberOfFiles++;
                     loadFile(key, file, returnObj, callback);
                 }
             }
@@ -52,3 +51,11 @@
 
     window.AbbeyLoad = AbbeyLoad;
 })(window);
+
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
