@@ -6,7 +6,7 @@
 (function (window, undefined) {
     var filesLoaded = 0,
         numberOfFiles = 0,
-        context = new webkitAudioContext(),
+        context = new AudioContext(),
         buffers = [];
 
     var AbbeyLoad = function (files, callback) {
