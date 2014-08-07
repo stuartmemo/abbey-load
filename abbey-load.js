@@ -16,6 +16,18 @@
         loadFiles(this.files, callback);
     };
 
+    AbbeyLoad.size = function(obj) {
+        var size = 0;
+
+        for (var key in obj) {
+            
+            if (obj.hasOwnProperty(key)){
+                size++;
+            }
+        }
+        return size;
+    };
+
     var loadFile = function (fileKey, file, returnObj, callback) {
         var request = new XMLHttpRequest();
 
@@ -26,7 +38,7 @@
             filesLoaded++;
             context.decodeAudioData(request.response, function (decodedBuffer) {
                 returnObj[fileKey] = decodedBuffer;
-                if (Object.size(returnObj) === numberOfFiles) {
+                if (AbbeyLoad.size(returnObj) === numberOfFiles) {
                     callback(returnObj);
                 }
             });
@@ -39,7 +51,7 @@
         var returnObj = {};
 
         files.forEach(function (file, index) {
-		numberOfFiles = Object.size(file);
+		numberOfFiles = AbbeyLoad.size(file);
             for (var key in file) {
                 if (file.hasOwnProperty(key)) {
                     loadFile(key, file, returnObj, callback);
@@ -51,11 +63,3 @@
 
     window.AbbeyLoad = AbbeyLoad;
 })(window);
-
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Abbey Load demo</title>
+</head>
+<body>
+    
+</body>
+<script src="abbey-load.js"></script>
+<script>
+	/*
+	Simple Abbey Load demo by @alvinsight
+	
+	*/
+    var context;
+    var source;
+    
+    if (typeof AudioContext !== "undefined") {
+        context = new AudioContext();
+    } else if (typeof webkitAudioContext !== "undefined") {
+        context = new webkitAudioContext();
+    } else {
+        throw new Error('Web Audio should be available in order to use Abbey Load');
+    }
+    
+    var loader = new AbbeyLoad([{'sound' : 'path/to/sound.mp3'}],filesLoaded);
+    
+    function filesLoaded(buffers){
+    
+        source = context.createBufferSource();
+        
+        source.buffer = buffers['sound'];
+
+        source.connect(context.destination);
+        
+        source.start(0);
+    
+    }
+</script>
+</html>
